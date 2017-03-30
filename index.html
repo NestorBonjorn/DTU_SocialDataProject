@@ -1,718 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Social Data Analysis and Data Visualization: Assignment 2</title>
-		<script type="text/javascript" src="d3/d3.js"></script>
-		<style type="text/css">
-		
-			.axis path,
-			.axis line {
-				fill: none;
-				stroke: black;
-				shape-rendering: crispEdges;
-			}
-			
-			.axis text {
-				font-family: sans-serif;
-				font-size: 11px;
-			}
-			
-			#tooltip {
-				position: absolute;
-				width: auto;
-				height: auto;
-				padding: 10px;
-				background-color: lightblue;
-				-webkit-border-radius: 10px;
-				-moz-border-radius: 10px;
-				border-radius: 10px;
-				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				pointer-events: none;
-			}
-			
-			#tooltip.hidden {
-				display: none;
-			}
-			
-			#tooltip p {
-				margin: 0;
-				font-family: sans-serif;
-				font-size: 14px;
-				line-height: 20px;
-			}
-			
-			svg text {
-				pointer-events: none;
-			}
-			
-			.button {
-			  display: inline-block;
-			  padding: 15px 25px;
-			  font-size: 16px;
-			  cursor: pointer;
-			  text-align: center;
-			  text-decoration: none;
-			  outline: none;
-			  color: #fff;
-			  background-color: #4CAF50;
-			  border: none;
-			  border-radius: 15px;
-			  box-shadow: 0 9px #999;
-			}
+<html>
 
-			.button:hover {background-color: #3e8e41}
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <meta name="description" content="SocialDataProject : Repository for the final project of the DTU course Social Data Analysis and Visualization (2017).">
 
-			.button:active {
-			  background-color: #3e8e41;
-			  box-shadow: 0 5px #666;
-			  transform: translateY(4px);
-			}
+    <link rel="stylesheet" type="text/css" media="screen" href="/SocialDataProject/assets/css/style.css?v=d555c4b1cbb63f61b108722ad1966bed780cbd8f">
 
-		</style>
-	</head>
-	<body>
+    <title>SocialDataProject</title>
+  </head>
 
-		<h1>Social Data Analysis and Visualization: Assignment 2</h1>
-	
-		<div id="tooltip" class="hidden">
-			<p><strong>District: </strong><span id="district">example</span></p>
-			<p><strong>Total crime: </strong><span id="totalCrime">example</span></p>
-			<p><strong>Prostitution crime: </strong><span id="prostitutionCrime">example</span></p>
-			<p><strong>Vehicle-theft crime: </strong><span id="vehicleCrime">example</span></p>
-		</div>
-	
-		<script type="text/javascript">
-			
-			//Scatter plot variables
-			var w = 850;
-			var h = 500;
-			var xpadding = 70;
-			var ypadding = 100;
-			var Rmin = 4;
-			var Rmax = 9;
-			var dataset2003;
-			var dataset2015;
-			var dataset;
-			var datasetLegend = [];
-			var dots_labels = true;
-			
-			//K-means variables
-			var w_kmeans = 600;
-			var h_kmeans = 550;
-			var kmeans_number = 2;
-			var kmeans_number_temporal;
-			var hoverID;
-			var buttonID;
-			var dataset_points = [];
-			var dataset_centers = [];
-			var colors_kmeans = ["deepskyblue", "rgb(255, 127, 14)", "blueviolet", "gold", "rgb(227, 119, 194)", "crimson"]
-			
-			// Append text
-			d3.select("body").append("p")
-				.text("Assignment 2A: One scatter plot and two datasets")
-				.style("font-weight", "bold")
-				.style("font-family", "serif")
-			    .style("font-size", "24px");
-				
-			d3.select("body").append("p")
-				.text("The following plot represents the prostitution and vehicle-theft crimes (x and y axes, respectively) in the city of San Francisco for each of its districts during one year. Both data of 2003 and 2015 can be shown by clicking the corresponding buttons below. The size of the dots is proportional to the total number of crimes in each district during the whole year. The labels of each district can be hide and shown again clicking also the corresponding button below. By hovering over the dots, the exact number of prostitution, vehicle-theft and total crimes, as well as the corresponding district, can be visualized in a tooltip.")
-				.style("font-family", "serif")
-			    .style("font-size", "16px");
-				
-			d3.select("body").append("p")
-				.text("The axes are not adaptive since being static is easier to compare the two datasets (from the two different years) and realize how the number of prostitution and vehicle-theft have changed over the years.")
-				.style("font-family", "serif")
-			    .style("font-size", "16px");
-				
-			// Append buttons
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "2003Button")
-			.style("background-color", "rgb(255, 127, 14)")
-			.text("2003");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "2015Button")
-			.style("background-color", "rgb(23, 190, 207)")
-			.text("2015");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "labelButton")
-			.style("background-color", "rgb(214, 39, 40)")
-			.text("Show/hide labels");
-				
-			d3.select("body").append("p")
-				.text("");
-			
-			//Create and append SVG element (scatter plot)
-			var svg = d3.select("body")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
-						
-			// Append text
-			d3.select("body").append("p")
-				.text("Assignment 2B: Visualizing geodata")
-				.style("font-weight", "bold")
-				.style("font-family", "serif")
-			    .style("font-size", "24px");
-			
-			d3.select("body").append("p")
-				.text("The following map shows the k-means cluster of prostitution crimes in San Francisco. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. The value of k can be set between 2 and 6 by clicking the following buttons. Moreover, the map with the corresponding number of clusters can be previewed by hovering over them.")
-				.style("font-family", "serif")
-			    .style("font-size", "16px");
-			
-			// Append buttons
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "k2")
-			.style("background-color", "rgb(44, 160, 44)")
-			.text("K2");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "k3")
-			.style("background-color", "rgb(214, 39, 40)")
-			.text("K3");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "k4")
-			.style("background-color", "rgb(214, 39, 40)")
-			.text("K4");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "k5")
-			.style("background-color", "rgb(214, 39, 40)")
-			.text("K5");
-			
-			d3.select("body").append("button")
-			.attr("class", "button")
-			.attr("id", "k6")
-			.style("background-color", "rgb(214, 39, 40)")
-			.text("K6");
-			
-			d3.select("body").append("p")
-				.text("");
-			
-			//Create and append SVG element (k-means)
-			var svg2 = d3.select("body")
-			.append("svg")
-			.attr("width", w_kmeans)
-			.attr("height", h_kmeans);
-		
-			//Load 2003 dataset
-			d3.csv("Datasets/data2003.csv", function(data) {
-				dataset2003 = data;
-				
-				//Generate dataset for the legend visualization
-				for (i=0; i<dataset2003.length; i++) {
-					datasetLegend.push(i);
-				}
-				
-				//Load 2003 dataset
-				d3.csv("Datasets/data2015.csv", function(data) {
-					dataset2015 = data;    
-					code();
-				});
-			});
-			
-			function code(){
-				//Create scale functions
-				//X-axis scale
-				var xScale = d3.scale.linear()
-						   //.domain([d3.min(dataset, function(d) { return parseInt(d["Prostitution"]);   }), 
-						   .domain([0, 
-							1.05*d3.max([d3.max(dataset2003, function(d) { return parseInt(d["Prostitution"]);   }), 
-							d3.max(dataset2015, function(d) { return parseInt(d["Prostitution"]);   })])])
-						   .range([xpadding, w-xpadding*3]);
-				
-				//Y-axis scale
-				var yScale = d3.scale.linear()
-						   //.domain([d3.min(dataset, function(d) { return parseInt(d["Vehicle_theft"]);   }), 
-						   .domain([0, 
-							1.05*d3.max([d3.max(dataset2003, function(d) { return parseInt(d["Vehicle_theft"]);   }), 
-							d3.max(dataset2015, function(d) { return parseInt(d["Vehicle_theft"]);   })])])
-						   .range([h-ypadding, ypadding]);
+  <body>
 
-				//Dots radius scale
-				var rScale = d3.scale.linear()
-						   .domain([d3.min([d3.min(dataset2003, function(d) { return parseInt(d["Total_crime"]);   }), 
-						   d3.min(dataset2015, function(d) { return parseInt(d["Total_crime"]);   })]), 
-							d3.max([d3.max(dataset2003, function(d) { return parseInt(d["Total_crime"]);   }), 
-							d3.max(dataset2015, function(d) { return parseInt(d["Total_crime"]);   })])])
-						   .range([Rmin, Rmax]);
-					
-				//Legend scale
-				var legendScale = d3.scale.linear()
-									.domain([0,9])
-									.range([ypadding + 10, h-ypadding-10]);
-									
-				//Colors scale
-				var colors = d3.scale.category10();
-							   
-				//Define X axis
-				var xAxis = d3.svg.axis()
-								  .scale(xScale)
-								  .orient("bottom")
-								  .ticks(5);
-								  
-				//Define Y axis
-				var yAxis = d3.svg.axis()
-								  .scale(yScale)
-								  .orient("left")
-								  .ticks(5);
-							 
-				// Define the div for the tooltip
-				var div = d3.select("body").append("div")	
-					.attr("class", "tooltip")				
-					.style("opacity", 0);
-		  
-				//Define clipping path
-				svg.append("clipPath")
-					.attr("id", "chart-area")
-					.append("rect")
-					.attr("x", xpadding)
-					.attr("y", ypadding)
-					.attr("width", w - xpadding * 2)
-					.attr("height", h - ypadding * 2);
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/NestorBonjorn/SocialDataProject">View on GitHub</a>
 
-				//Create circles
-				svg.append("g")
-				   .attr("id", "circles")
-				   .attr("clip-path", "url(#chart-area)")
-				   .selectAll("circle")
-				   .data(dataset2003)
-				   .enter()
-				   .append("circle")
-				   .attr("cx", function(d) {
-					  return xScale(parseInt(d["Prostitution"]));
-				   })
-				   .attr("cy", function(d) {
-					  return yScale(parseInt(d["Vehicle_theft"]));
-				   })
-				   .attr("r", function(d) {
-					  return rScale(parseInt(d["Total_crime"]));
+          <h1 id="project_title">SocialDataProject</h1>
+          <h2 id="project_tagline">Repository for the final project of the DTU course Social Data Analysis and Visualization (2017).</h2>
 
-				   })
-				   .style("fill", function(d, i) {
-					  return colors(i);
-				   })
-				   .style("opacity", 0.9)
-				   .on("mouseover", function(d) {
-						
-						//Increase the dots size
-						d3.select(this)
-						  .attr("r", "11px");
-						
-						//Get this bar's x/y values, then augment for the tooltip
-						var xPosition = d3.event.pageX + 5;
-						var yPosition = d3.event.pageY - 100;
+          
+        </header>
+    </div>
 
-						//Update the tooltip position and value
-						d3.select("#tooltip")
-							.style("left", xPosition + "px")
-							.style("top", yPosition + "px")						
-							.select("#district")
-							.text(d["District"]);
-							
-						d3.select("#tooltip")
-							.select("#totalCrime")
-							.text(d["Total_crime"]);
-							
-						d3.select("#tooltip")
-							.select("#prostitutionCrime")
-							.text(d["Prostitution"]);
-							
-						d3.select("#tooltip")
-							.select("#vehicleCrime")
-							.text(d["Vehicle_theft"]);
-				   
-						//Show the tooltip
-						d3.select("#tooltip").classed("hidden", false);
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2 id="welcome-to-github-pages">Welcome to GitHub Pages</h2>
 
-				   })
-				   .on("mouseout", function() {
-						
-						//Return the dots to the original size
-						d3.select(this)
-						  .transition()
-						  .duration(500)
-						  .attr("r", function(d) {
-							  return rScale(parseInt(d["Total_crime"]));
-						  })
-						  
-						//Hide the tooltip
-						d3.select("#tooltip").classed("hidden", true);
-						
-				   });
-				
-				//Create labels
-				svg.selectAll("text")
-				   .data(dataset2003)
-				   .enter()
-				   .append("text")
-				   .text(function(d) {
-					  return d["District"];
-				   })
-				   .attr("x", function(d) {
-					  return xScale(parseInt(d["Prostitution"]));
-				   })
-				   .attr("y", function(d) {
-					  return yScale(parseInt(d["Vehicle_theft"]));
-				   })
-				   .attr("font-family", "sans-serif")
-				   .attr("font-size", "11px")
-				   .attr("fill", "black")
-				   .attr("opacity", 1);
-				   
-				//Create dots labels legend
-				svg.append("g")
-				   .selectAll("circle")
-				   .data(datasetLegend)
-				   .enter()
-				   .append("circle")
-				   .attr("cx", w-xpadding*2)
-				   .attr("cy", function(d, i) {
-					  return legendScale(d);
-				   })
-				   .attr("r", 8)
-				   .style("fill", function(d, i) {
-					  return colors(i);
-				   })
-				   .attr("opacity", 1);
-				   
-				//Create X axis
-				svg.append("g")
-					.attr("class", "x axis")
-					.attr("transform", "translate(0," + (h - ypadding) + ")")
-					.call(xAxis);
-				
-				//Create Y axis
-				svg.append("g")
-					.attr("class", "y axis")
-					.attr("transform", "translate(" + xpadding + ",0)")
-					.call(yAxis);
-					
-				// Add title to the plot
-				svg.append("text")
-					.attr("text-anchor", "middle") 
-					.attr("transform", "translate("+ (w/2*0.85) +"," + ypadding/2 + ")")
-					.attr("font-size", "22px")
-					.attr("font-weight", "bold")
-					.attr("id", "plot_title")
-					.text("San Francisco crimes per district (2003)");
-				
-				// Add titles to the axes
-				svg.append("text")
-					.attr("text-anchor", "middle")
-					.attr("transform", "translate("+ (xpadding/5) +","+(h/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-					.text("Vehicle-theft crimes");
+<p>You can use the <a href="https://github.com/NestorBonjorn/SocialDataProject/edit/master/README.md">editor on GitHub</a> to maintain and preview the content for your website in Markdown files.</p>
 
-				svg.append("text")
-					.attr("text-anchor", "middle")
-					.attr("transform", "translate("+ (w/2*0.85) +","+(h-(ypadding/2))+")")  // centre below axis
-					.text("Prostitution crimes");
-				
-				//Define map projection
-				var projection = d3.geo.mercator()
-								   .center([-122.433701, 37.767683])
-								   .scale(190000)
-								   .translate([w_kmeans/2, h_kmeans/2]);
+<p>Whenever you commit to this repository, GitHub Pages will run <a href="https://jekyllrb.com/">Jekyll</a> to rebuild the pages in your site, from the content in your Markdown files.</p>
 
-				//Define path generator
-				var path = d3.geo.path()
-				.projection(projection);
-				
-				//Load in GeoJSON data
-				d3.json("Datasets/sfpddistricts.geojson", function(json) {
-				
-					//Bind data and create one path per GeoJSON feature
-					svg2.selectAll("path")
-						.data(json.features)
-						.enter()
-						.append("path")
-						.attr("d", path)
-						.style("fill", "gainsboro")
-						.style("stroke", "dimgray")
-						.on("mouseover", function(d) {
-							d3.select(this).style("fill", "grey")
-						})
-						.on("mouseout", function(d) {
-							d3.select(this).style("fill", "gainsboro")
-						});
-						
-					//Create different visualization layers in a specific order
-					var layer1 = svg2.append('g')
-					var labels = svg2.append('g')
-					var layer2 = svg2.append('g');
-					
-					//Add title to the plot
-					svg2.append("text")
-						.attr("text-anchor", "middle")
-						.attr("transform", "translate("+ (w_kmeans/2*0.85) +"," + ypadding/2 + ")")
-						.attr("font-size", "22px")
-						.attr("font-weight", "bold")
-						.attr("id", "kmeans_title")
-						.text("Showing K-means for K = 2");
+<h3 id="markdown">Markdown</h3>
 
-					//Load kmeans data
-					d3.csv("Datasets/kmeans.csv", function(data) {
-						dataset_points = data;
-						circles = layer1.selectAll("circle")
-						.data(dataset_points)
-						.enter()
-						.append("circle")
-						.attr("cx", function(d) {
-							return projection([d.lon, d.lat])[0];
-						})
-						.attr("cy", function(d) {
-							return projection([d.lon, d.lat])[1];
-						})
-						.attr("r", 2)
-						.attr("pointer-events", "none")
-						.style("fill", function(d) {
-							return colors_kmeans[parseInt(d.l2)];
-						});
+<p>Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for</p>
 
-					});
+<div class="language-markdown highlighter-rouge"><pre class="highlight"><code>Syntax highlighted code block
 
-					//Load kmeans centroides data
-					d3.csv("Datasets/centers.csv", function(centers){
-						dataset_centers = centers;
-						centroids = layer2.selectAll("circle")
-						.data(dataset_centers)
-						.enter()
-						.append("circle")
-						.attr("cx", function(d) {
-							return projection([d.lon, d.lat])[0];
-						})
-						.attr("cy", function(d) {
-							return projection([d.lon, d.lat])[1];
-						})
-						.attr("r", 8)
-						.attr("pointer-events", "none")
-						.style("stroke", "black")
-						.style("fill", function(d){return colors_kmeans[d.color];})
-						.style("fill-opacity", function(d){
-							if (d.k == "2") {return "1";}
-							else {return "0";}
-						})
-						.style("stroke-opacity", function(d){
-							if (d.k == "2") {return "1";}
-							else {return "0";}
-						});
-					}); 
+<span class="gh"># Header 1</span>
+<span class="gu">## Header 2</span>
+<span class="gu">### Header 3</span>
+<span class="p">
+-</span> Bulleted
+<span class="p">-</span> List
+<span class="p">
+1.</span> Numbered
+<span class="p">2.</span> List
 
-					//Add district names
-					labels.selectAll("text")
-					.data(json.features)
-					.enter()
-					.append("svg2:text")
-					.text(function(d){
-						return d.properties.DISTRICT;
-					})
-					.attr("x", function(d){
-						return path.centroid(d)[0];
-					})
-					.attr("y", function(d){
-						return  path.centroid(d)[1];
-					})
-					.attr("text-anchor","middle")
-					.attr('font-size','10pt');
+<span class="gs">**Bold**</span> and _Italic_ and <span class="sb">`Code`</span> text
 
-				
-				});
-			
-				//On click (button), update with new data			
-				d3.selectAll("button")
-					.on("click", function() {
-						
-						//See which button was clicked
-						buttonID = d3.select(this).attr("id");
-						
-						//Scatter plot buttons
-						if (buttonID == "2003Button") {
-							// 2003 data
-							dataset = dataset2003;
-							d3.select("#plot_title")
-							  .text("San Francisco crimes per district (2003)");
-							  
-						} else if (buttonID == "2015Button") {
-							// 2015 data
-							dataset = dataset2015;
-							d3.select("#plot_title")
-							  .text("San Francisco crimes per district (2015)");
-							  
-						} else if (buttonID == "labelButton") {
-							
-							if (dots_labels == true) {
-							
-								if (dataset == null) {
-									dataset = dataset2003;
-								} 
-								
-								//Change the color of the button
-								d3.select(this).style("background-color", "#4CAF50");
-								
-								//Create labels
-								svg.selectAll("text")
-								   .data(dataset)
-								   .transition()
-								   .duration(1000)
-								   .attr("x", w-xpadding*2+15)
-								   .attr("y", function(d, i) {
-										//return (i/datasetLegend.length*0.7*h + (h*0.15));
-										return legendScale(i)+4;
-								   })
-								   .attr("opacity", 1);
-								
-								dots_labels = false;
-							} 
-							else if (dots_labels == false) {
-							
-								if (dataset == null) {
-									dataset = dataset2003;
-								} 
-								
-								//Change the color of the button
-								d3.select(this).style("background-color", "rgb(214, 39, 40)");
-								
-								//Create labels
-								svg.selectAll("text")
-								   .data(dataset)
-								   .transition()
-								   .duration(1000)
-								   .attr("x", function(d) {
-									  return xScale(parseInt(d["Prostitution"]));
-								   })
-								   .attr("y", function(d) {
-									  return yScale(parseInt(d["Vehicle_theft"]));
-								   })
-								   .attr("opacity", 1);
-								
-								dots_labels = true;
-							}
-							
-						} 
-						//K-means buttons
-						else if (buttonID == "k2") {
-							kmeans_buttons_colors(buttonID);
-							kmeans_number = 2;
-							kmeans_function(kmeans_number);
-						}
-						else if (buttonID == "k3") {
-							kmeans_buttons_colors(buttonID);
-							kmeans_number = 3;
-							kmeans_function(kmeans_number);
-						}
-						else if (buttonID == "k4") {
-							kmeans_buttons_colors(buttonID);
-							kmeans_number = 4;
-							kmeans_function(kmeans_number);
-						}
-						else if (buttonID == "k5") {
-							kmeans_buttons_colors(buttonID);
-							kmeans_number = 5;
-							kmeans_function(kmeans_number);
-						}
-						else if (buttonID == "k6") {
-							kmeans_buttons_colors(buttonID);
-							kmeans_number = 6;
-							kmeans_function(kmeans_number);
-						}
-						
-						if (dataset == null) {
-							dataset = dataset2003;
-						}
+<span class="p">[</span><span class="nv">Link</span><span class="p">](</span><span class="sx">url</span><span class="p">)</span> and !<span class="p">[</span><span class="nv">Image</span><span class="p">](</span><span class="sx">src</span><span class="p">)</span>
+</code></pre>
+</div>
 
-						//Update all circles from scatter plot
-						svg.selectAll("circle")
-						   .data(dataset)
-						   .transition()
-						   .duration(1000)
-						   //Create circles
-						   .attr("cx", function(d) {
-							  return xScale(parseInt(d["Prostitution"]));
-						   })
-						   .attr("cy", function(d) {
-							  return yScale(parseInt(d["Vehicle_theft"]));
-						   })
-						   .attr("r", function(d) {
-							  return rScale(parseInt(d["Total_crime"]));
-						   });
-						   
-						if (dots_labels == true) {
-							//Create labels
-							svg.selectAll("text")
-							   .data(dataset)
-							   .transition()
-							   .duration(1000)
-							   .text(function(d) {
-								  return d["District"];
-							   })
-							   .attr("x", function(d) {
-								  return xScale(parseInt(d["Prostitution"]));
-							   })
-							   .attr("y", function(d) {
-								  return yScale(parseInt(d["Vehicle_theft"]));
-							   })
-							   .attr("opacity", 1);
-						}
-					})
-					.on("mouseover", function() {
-						//See which button was hover-over
-						hoverID = d3.select(this).attr("id");
-						kmeans_number_temporal = hoverID.charAt(0);
-						//If the button is one of the k-means buttons
-						if (kmeans_number_temporal == "k") {
-							//Get the last char of the string
-							kmeans_number_temporal = hoverID.slice(-1);
-							//Update the k-means visualization with the hover-overed button
-							kmeans_function(kmeans_number_temporal);
-						}
-					})
-					.on("mouseout", function() {
-						//K-means for the last-clicked button
-						kmeans_function(kmeans_number);
-					});
-				
-				//Function that calculates the kmeans visualization given the 'k' number
-				function kmeans_function(k) {
-					
-					d3.select("#kmeans_title")
-						  .text("Showing K-means for K = " + k);
-						  
-					circles.style("fill", function(d) {return colors_kmeans[parseInt(d["l" + k])];});
-					centroids.style("fill-opacity", function(d){
-						if (d.k == k) {return "1";}
-						else {return "0";}
-					})
-					.style("stroke-opacity", function(d){
-						if (d.k == k) {return "1";}
-						else {return "0";}
+<p>For more details see <a href="https://guides.github.com/features/mastering-markdown/">GitHub Flavored Markdown</a>.</p>
 
-					});
-				}
-				
-				function kmeans_buttons_colors(k) {
-					//Set the color of the 'k' button to green
-					d3.select("#" + k).style("background-color", "rgb(44, 160, 44)");
-					var kmeans_options = ["k2", "k3", "k4", "k5", "k6"]
-					//Delete the element equals to 'k' from the kmeans_options array
-					kmeans_options.splice(kmeans_options.indexOf(k), 1);
-					//Set the color to red of all the kx buttons but the one clicked (k)
-					for (var i = 0; i < kmeans_options.length; i++) {
-						d3.select("#" + kmeans_options[i]).style("background-color", "rgb(214, 39, 40)");
-					}
-				}
-			}
-		</script>
-	</body>
-</html>
+<h3 id="jekyll-themes">Jekyll Themes</h3>
+
+<p>Your Pages site will use the layout and styles from the Jekyll theme you have selected in your <a href="https://github.com/NestorBonjorn/SocialDataProject/settings">repository settings</a>. The name of this theme is saved in the Jekyll <code class="highlighter-rouge">_config.yml</code> configuration file.</p>
+
+<h3 id="support-or-contact">Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out our <a href="https://help.github.com/categories/github-pages-basics/">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">SocialDataProject maintained by <a href="https://github.com/NestorBonjorn">NestorBonjorn</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+  </body>
