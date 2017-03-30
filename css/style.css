@@ -1,0 +1,119 @@
+/* =Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
+-------------------------------------------------------------- */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+
+body {
+	text-align: center;
+	font-family: sans-serif;
+	background: LightGoldenRodYellow;
+}
+  
+header {
+	background: GoldenRod;
+	width: 100%;
+	height: 60px;
+	top: 0;
+	position: fixed;
+	line-height: 60px;
+	z-index:10;
+}
+
+header div {
+	max-width: 945px;
+	margin: 0 auto;
+	padding: 0 1em 0 1em;
+}
+
+header h1 {
+	float: left;
+	font-family: helvetica, arial, sans-serif;
+}
+
+header ul {
+	float: right;
+	list-style-type: none;
+}
+
+header a {
+	text-decoration: none;
+	color: white;
+}
+
+header li {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+header li a:hover {
+	color: grey;
+}
+
+@media only screen and (max-width: 520px) {
+ header { text-align: center; position: relative; }
+ main { padding: 1em; }
+ header h1 { float: none; margin: 0; }
+ header ul { float: none; margin: auto;}
+}﻿
+ 
+.parallax {
+    /* The image used */
+    background-image: url("../img/NewYorkCityPict.jpg") repeat;
+
+    /* Full height */
+    height: 100%; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.banner {
+	width: 100%;
+	height: 1000px;
+	position: fixed;
+	font-size: 20px;
+	top: 60px;
+	background-image: url("../img/NewYorkCityPict.jpg");
+}
+
+.content {
+	width: 100%;
+	position: relative;
+	top: 500px;
+	left: 0;
+	background: LightGoldenRodYellow;
+	height: auto;
+}
+
+.viz-div h1 {
+	margin-top: 60px;
+	margin-left: 15%;
+	margin-right: 15%;
+	text-align: left;
+}
+
+.viz-div p, h2 {
+	margin-top: 20px;
+	margin-left: 15%;
+	margin-right: 15%;
+	text-align: left;
+}
+
+.svg-div {
+	text-align: center;
+}

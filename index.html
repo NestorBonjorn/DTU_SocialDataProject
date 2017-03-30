@@ -4,102 +4,37 @@
 		<meta charset="utf-8">
 		<title>Social Data Analysis and Data Visualization: Assignment 2</title>
 		<script type="text/javascript" src="d3/d3.js"></script>
-		<style type="text/css">
-		
-			.axis path,
-			.axis line {
-				fill: none;
-				stroke: black;
-				shape-rendering: crispEdges;
-			}
-			
-			.axis text {
-				font-family: sans-serif;
-				font-size: 11px;
-			}
-			
-			#tooltip {
-				position: absolute;
-				width: auto;
-				height: auto;
-				padding: 10px;
-				background-color: lightblue;
-				-webkit-border-radius: 10px;
-				-moz-border-radius: 10px;
-				border-radius: 10px;
-				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-				pointer-events: none;
-			}
-			
-			#tooltip.hidden {
-				display: none;
-			}
-			
-			#tooltip p {
-				margin: 0;
-				font-family: sans-serif;
-				font-size: 14px;
-				line-height: 20px;
-			}
-			
-			svg text {
-				pointer-events: none;
-			}
-			
-			.button {
-			  display: inline-block;
-			  padding: 15px 25px;
-			  font-size: 16px;
-			  cursor: pointer;
-			  text-align: center;
-			  text-decoration: none;
-			  outline: none;
-			  color: #fff;
-			  background-color: #4CAF50;
-			  border: none;
-			  border-radius: 15px;
-			  box-shadow: 0 9px #999;
-			}
-
-			.button:hover {background-color: #3e8e41}
-
-			.button:active {
-			  background-color: #3e8e41;
-			  box-shadow: 0 5px #666;
-			  transform: translateY(4px);
-			}
-
-		</style>
+		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
-		
-		<div id="wrapper">
+		<div id="container">
 
-		<header>
-			<div class="container clearfix">
-				<nav class="left">
-					<a href="#wrapper">Introduction</a>
-					<a href="#sentiments">Sentiments</a>
-				</nav>
-
-				<h1 id="logo">
-					<a href="#wrapper">Social Data 2017</a>
-				</h1>
-
-				<nav class="navright">
-					<a href="#network">Network</a>
-					<a href="#terms">Terms</a>
-				</nav>
-				<div id="downloads">
-					<a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">View the explainer notebook</a><br>
-					<a href="https://github.com/NestorBonjorn/SocialDataProject">Get the datasets here</a>
+			<header>
+			    <div>
+					<h1><a href="#">Social Data</a></h1>
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#mapSection">Map</a></li>
+						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Explainer notebook</a></li>
+						<li><a href="https://github.com/NestorBonjorn/SocialDataAnalysisAndVisualization2017">Github Repo</a></li>
+					</ul>
 				</div>
-			</div>​
+			</header>
+			
+			<div class="banner"></div>
+			
+			<div class="content">
+				<section id="mapSection">
+					<div class="viz-div">
+						<br>
+						<h1>New York map</h1>
+						<p>The map below represents the city of New York.</p>
+						<div class="svg-div"></div>
+					</div>
+				</section>
+			</div>
+			
 		</div>
-
-		</header><!-- /header -->
 		
 		<h1>Social Data Analysis and Visualization: Assignment 2</h1>
 		
@@ -120,7 +55,7 @@
 							 .projection(projection);
 
 			//Create SVG element
-			var svg = d3.select("body")
+			var svgMap = d3.select("#mapSection .svg-div")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
@@ -129,7 +64,7 @@
 			d3.json("Datasets/nyc.geojson", function(json) {
 				
 				//Bind data and create one path per GeoJSON feature
-				svg.selectAll("path")
+				svgMap.selectAll("path")
 					.data(json.features)
 					.enter()
 					.append("path")

@@ -1,0 +1,96 @@
+/* =Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
+-------------------------------------------------------------- */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+  
+body {
+ margin: 0;
+ padding: 0;
+}
+
+header {
+	background: GoldenRod;
+	width: 100%;
+	height: 80px;
+	top: 0;
+	position: fixed;
+	line-height: 80px;
+	z-index:10;
+}
+
+header div {
+ max-width: 960px;
+ margin: 0 auto;
+ padding: 0 1em 0 1em;
+}
+
+header h1 {
+	float: left;
+	font-family: helvetica, arial, sans-serif;
+}
+
+header ul {
+	float: right;
+	list-style-type: none;
+}
+
+header a {
+	text-decoration: none;
+	color: white;
+}
+
+header li {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+header li a:hover {
+	color: blue;
+}
+
+@media only screen and (max-width: 520px) {
+ header { text-align: center; position: relative; }
+ main { padding: 1em; }
+ header h1 { float: none; margin: 0; }
+ header ul { float: none; margin: auto;}
+}﻿
+
+.banner {
+	width: 100%;
+	height: 1500px;
+	position: fixed;
+	font-size: 20px;
+	top: 80px;
+	background-image: url("../Messi.jpg");
+}
+
+.content {
+	width: 100%;
+	position: relative;
+	top: 500px;
+	left: 0;
+	background: LightGoldenRodYellow;
+	height: auto;
+}
+
+.viz-div p, h1, h2 {
+	margin-left: 15%;
+	margin-right: 15%;
+	text-align: left;
+}
+
+.svg-div {
+	text-align: center;
+}
