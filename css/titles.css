@@ -1,0 +1,13 @@
+.title {
+	display: inline-block;
+	width: 500px;
+	top: 0px;
+	margin-right: 160px;
+}
+
+.title p {
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+	font-family: sans-serif;
+}

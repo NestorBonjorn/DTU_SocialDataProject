@@ -70,7 +70,7 @@ header li a:hover {
  
 .parallax {
     /* The image used */
-    background-image: url("../img/NewYorkCityPict.jpg") repeat;
+    background-image: url("/img/NewYorkCityPict.jpg") repeat;
 
     /* Full height */
     height: 100%; 
@@ -88,7 +88,7 @@ header li a:hover {
 	position: fixed;
 	font-size: 20px;
 	top: 60px;
-	background-image: url("../img/NewYorkCityPict.jpg");
+	background-image: url("/img/NewYorkCityPict.jpg");
 	background-position: center;
 }
 
@@ -119,4 +119,7 @@ header li a:hover {
 }
 
 .button-div {
+	right: 20px;
+	margin-left: 20px;
+	padding-left: 20px;
 }

@@ -19,7 +19,7 @@ var path = d3.geo.path()
 				 .projection(projection);
 
 //Load in GeoJSON data
-d3.json("Datasets/nyc.geojson", function(json) {
+d3.json("../Datasets/nyc.geojson", function(json) {
 	
 	//Bind data and create one path per GeoJSON feature
 	svgMap.selectAll("path")

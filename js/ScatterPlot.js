@@ -38,7 +38,7 @@ d3.select("#plotSection .button-div").append("button")
 	
 			
 //Load 2003 dataset
-d3.csv("Datasets/data2003.csv", function(data) {
+d3.csv("../Datasets/data2003.csv", function(data) {
 	dataset2003 = data;
 	
 	//Generate dataset for the legend visualization
@@ -47,7 +47,7 @@ d3.csv("Datasets/data2003.csv", function(data) {
 	}
 	
 	//Load 2003 dataset
-	d3.csv("Datasets/data2015.csv", function(data) {
+	d3.csv("../Datasets/data2015.csv", function(data) {
 		dataset2015 = data;    
 		code();
 	});
@@ -251,7 +251,7 @@ function code(){
 		.text("Prostitution crimes");
 		
 	//On click (button), update with new data			
-	d3.selectAll("button")
+	d3.select("#plotSection").selectAll("button")
 		.on("click", function() {
 			
 			//See which button was clicked
