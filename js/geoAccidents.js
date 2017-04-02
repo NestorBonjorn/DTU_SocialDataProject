@@ -74,7 +74,7 @@ var legendScaleMap = d3.scale.linear()
 					.range([80, 150]);
 
 //Load in GeoJSON data
-d3.json("../Datasets/nyc.geojson", function(json) {
+d3.json("Datasets/nyc.geojson", function(json) {
 	
 	//Bind data and create one path per GeoJSON feature
 	map.selectAll("path")
