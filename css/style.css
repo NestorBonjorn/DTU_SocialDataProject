@@ -88,7 +88,7 @@ header li a:hover {
 	position: fixed;
 	font-size: 20px;
 	top: 60px;
-	background-image: url("/img/NewYorkCityPict.jpg");
+	background-image: url("../img/NewYorkCityPict.jpg");
 	background-position: center;
 }
 
