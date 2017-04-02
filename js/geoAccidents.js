@@ -127,7 +127,7 @@ d3.json("Datasets/nyc.geojson", function(json) {
 	   });
 
 
-	d3.csv('../Datasets/geoAccidentsNormLabel.csv', function(data) {
+	d3.csv('Datasets/geoAccidentsNormLabel.csv', function(data) {
 		dataset_points = data;
 		for (var i = 0; i < dataset_points.length; i++) {
 			if (dataset_points[i].year == 2012) {
@@ -170,7 +170,7 @@ d3.json("Datasets/nyc.geojson", function(json) {
 		.attr("opacity", 0.8);
 	});
 
-	d3.csv('../Datasets/geoAccidentsKilled.csv', function(data) {
+	d3.csv('Datasets/geoAccidentsKilled.csv', function(data) {
 		dataset_points_killed = data;
 		for (var i = 0; i < dataset_points_killed.length; i++) {
 			if (dataset_points_killed[i].year == 2012) {
