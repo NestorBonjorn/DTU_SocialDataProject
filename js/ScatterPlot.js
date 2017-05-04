@@ -146,26 +146,26 @@ function code(){
 			var yPosition = d3.event.pageY - 100;
 
 			//Update the tooltip position and value
-			d3.select("#tooltip")
+			d3.select("#tooltipDistrict")
 				.style("left", xPosition + "px")
 				.style("top", yPosition + "px")						
 				.select("#district")
 				.text(d["District"]);
 				
-			d3.select("#tooltip")
+			d3.select("#tooltipDistrict")
 				.select("#totalCrime")
 				.text(d["Total_crime"]);
 				
-			d3.select("#tooltip")
+			d3.select("#tooltipDistrict")
 				.select("#prostitutionCrime")
 				.text(d["Prostitution"]);
 				
-			d3.select("#tooltip")
+			d3.select("#tooltipDistrict")
 				.select("#vehicleCrime")
 				.text(d["Vehicle_theft"]);
 	   
 			//Show the tooltip
-			d3.select("#tooltip").classed("hidden", false);
+			d3.select("#tooltipDistrict").classed("hidden", false);
 
 	   })
 	   .on("mouseout", function() {
@@ -179,7 +179,7 @@ function code(){
 			  })
 			  
 			//Hide the tooltip
-			d3.select("#tooltip").classed("hidden", true);
+			d3.select("#tooltipDistrict").classed("hidden", true);
 			
 	   });
 	

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="css/assignment2.css"/>
 		<link rel="stylesheet" href="css/dropdown4.css"/>
 		<link rel="stylesheet" href="css/titles.css"/>
+		<link rel="stylesheet" href="css/bar_plot.css"/>
 	</head>
 	<body>
 
@@ -31,18 +32,57 @@
 			<div class="banner"></div>
 			
 			<div class="content">
-				<section id="plotSection" style=background-color:PaleGoldenRod>
+				<section id="barPlotSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
 						<h1>Plot</h1>
 						<p>The plot below represents something.</p>
 						<br>
+						<input type="radio" id="radioDistrict1" name="radiosDistrict" value="all" checked onchange="button_clicked()">
+						<label for="radioDistrict1">Total</label>
+						<input type="radio" id="radioDistrict2" name="radiosDistrict" value="false" onchange="button_clicked()">
+						<label for="radioDistrict2">Relative to population</label>
+						<input type="radio" id="radioDistrict3" name="radiosDistrict" value="true" onchange="button_clicked()">
+						<label for="radioDistrict3">Relative to neighbourhood area</label> 
+						<br>
+						<br>
+						<div id="tooltipDistrict" class="hidden">
+							<p><strong>Value: </strong><span id="value">example</span></p>
+						</div>
 						<div class="svg-div"></div>
-						<div class="button-div"></div>
+<!-- 						<div class="button-div"></div> -->
 						<br><br><br>
 					</div>
 				</section>
-				<section id="mapSection" style=background-color:LightGoldenRodYellow>
+				<section id="barPlotTypesSection" style=background-color:LightGoldenRodYellow>
+					<div class="viz-div">
+						<br>
+						<h1>Plot</h1>
+						<p>The plot below represents something.</p>
+						<br>
+						<input type="radio" id="radio1" name="radiosType" value="false" onchange="types_clicked()">
+						<label for="radio1">Show types</label>
+						<input type="radio" id="radio2" name="radiosType"value="false" checked onchange="total_clicked()">
+						<label for="radio2">Show total</label>
+						<br>
+						<div id="acc_types">
+							<input type="checkbox" id="chk1" name="chk" value="all" checked onchange="no_injuries_clicked()">
+							<label for="chk1">No injuries</label>
+							<input type="checkbox" id="chk2" name="chk"value="all" checked onchange="injuries_clicked()">
+							<label for="chk2">Injuries</label>
+							<input type="checkbox" id="chk3" name="chk" value="all" checked onchange="deaths_clicked()">
+							<label for="chk3">Deaths</label>
+						</div>
+
+						<div id="tooltipType" class="hidden">
+							<p><strong>Value: </strong><span id="value">example</span></p>
+						</div>
+						<div class="svg-div"></div>
+<!-- 						<div class="button-div"></div> -->
+						<br><br><br>
+					</div>
+				</section>
+				<section id="mapSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
 						<h1>New York map</h1>
@@ -73,7 +113,7 @@
 						<br><br><br>
 					</div>
 				</section>
-				<section id="bubbleSection" style=background-color:PaleGoldenRod>
+				<section id="bubbleSection" style=background-color:LightGoldenRodYellow>
 					<div class="viz-div">
 						<br>
 						<h1>Bubble chart</h1>
@@ -92,7 +132,8 @@
 			<p><strong>Vehicle-theft crime: </strong><span id="vehicleCrime">example</span></p>
 		</div>
 		
-		<script type="text/javascript" src="js/ScatterPlot.js"></script>
+		<script type="text/javascript" src="js/barPlot.js"></script>
+		<script type="text/javascript" src="js/barPlotTypes.js"></script>
 		<script type="text/javascript" src="js/geoAccidents.js"></script>
 		
 
