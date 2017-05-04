@@ -10,6 +10,7 @@ var accidents_by_neighbourhood_population = [];
 var datasetDistrict = [];
 var xScaleDistrict, yScaleDistrict, svgBarPlot, yAxisDistrict, yScaleAxis;
 var xPositionDistrict, yPositionDistrict;
+var formatDistrict = d3.format(",d");
 
 var tooltipDistrict = d3.select("body")
     .append("div")
@@ -86,8 +87,13 @@ d3.csv("Datasets/accidents_by_neighbourhood.csv", function(data) {
 	})
 	.attr("fill", "rgb(0,116,183)")
 	.on("mouseover", function(d){
-			tooltipDistrict.text(d);
-            tooltipDistrict.style("visibility", "visible");
+		if (d<0.03) {
+			tooltipDistrict.text(parseFloat(Math.round(d*10000)/10000).toFixed(4));
+		}
+		else {
+			tooltipDistrict.text(parseInt(Math.round(d)));
+		}
+        tooltipDistrict.style("visibility", "visible");
 	})
 	.on("mousemove", function() {
           return tooltipDistrict.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");

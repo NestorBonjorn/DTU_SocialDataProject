@@ -208,8 +208,13 @@ function plot_bars_hours(){
 
 	})
 	.on("mouseover", function(d){
-			tooltipHours.text(d);
-            tooltipHours.style("visibility", "visible");
+			if (d<0.03) {
+			tooltipHours.text(parseFloat(Math.round(d*10000)/10000).toFixed(4));
+		}
+		else {
+			tooltipHours.text(parseFloat(Math.round(d*100)/100).toFixed(2));
+		}
+        tooltipHours.style("visibility", "visible");
 	})
 	.on("mousemove", function() {
           return tooltipHours.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");

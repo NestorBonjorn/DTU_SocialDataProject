@@ -1,7 +1,8 @@
 rect:hover {
-	background: linear-gradient(
+	/*background: linear-gradient(
 		rgba(20,20,20, .5),
-		rgba(20,20,20, .5));
+		rgba(20,20,20, .5));*/
+	fill: orange;
 }	
 div + p {
 	color: red;
