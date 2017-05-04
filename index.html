@@ -20,7 +20,7 @@
 					<h1><a href="#">NYC Road Accidents</a></h1>
 					<ul>
 						<li><a href="#">Home</a></li>
-						<li><a href="#plotSection">Plot</a></li>
+						<li><a href="#barPlotSection">Bar plots</a></li>
 						<li><a href="#mapSection">Map</a></li>
 						<li><a href="#bubbleSection">Bubble</a></li>
 						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Explainer notebook</a></li>
@@ -62,13 +62,13 @@
 						<br>
 						<input type="radio" id="radio1" name="radiosType" value="false" onchange="types_clicked()">
 						<label for="radio1">Show types</label>
-						<input type="radio" id="radio2" name="radiosType"value="false" checked onchange="total_clicked()">
+						<input type="radio" id="radio2" name="radiosType" value="false" checked onchange="total_clicked()">
 						<label for="radio2">Show total</label>
 						<br>
 						<div id="acc_types">
 							<input type="checkbox" id="chk1" name="chk" value="all" checked onchange="no_injuries_clicked()">
 							<label for="chk1">No injuries</label>
-							<input type="checkbox" id="chk2" name="chk"value="all" checked onchange="injuries_clicked()">
+							<input type="checkbox" id="chk2" name="chk" value="all" checked onchange="injuries_clicked()">
 							<label for="chk2">Injuries</label>
 							<input type="checkbox" id="chk3" name="chk" value="all" checked onchange="deaths_clicked()">
 							<label for="chk3">Deaths</label>
@@ -82,7 +82,29 @@
 						<br><br><br>
 					</div>
 				</section>
-				<section id="mapSection" style=background-color:PaleGoldenRod>
+				<section id="barPlotHoursSection" style=background-color:PaleGoldenRod>
+					<div class="viz-div">
+						<br>
+						<h1>Plot</h1>
+						<p>The plot below represents something.</p>
+						<br>
+						<input type="checkbox" id="chkHours1" name="chk" value="all" checked onchange="no_injuries_selected()">
+						<label for="chkHours1">No injuries</label>
+						<input type="checkbox" id="chkHours2" name="chk" value="all" checked onchange="injuries_selected()">
+						<label for="chkHours2">Injuries</label>
+						<input type="checkbox" id="chkHours3" name="chk" value="all" checked onchange="deaths_selected()">
+						<label for="chkHours3">Deaths</label>
+						<br>
+
+						<div id="tooltip" class="hidden">
+							<p><strong>Value: </strong><span id="value">example</span></p>
+						</div>
+						<div class="svg-div"></div>
+<!-- 						<div class="button-div"></div> -->
+						<br><br><br>
+					</div>
+				</section>
+				<section id="mapSection" style=background-color:LightGoldenRodYellow>
 					<div class="viz-div">
 						<br>
 						<h1>New York map</h1>
@@ -113,7 +135,7 @@
 						<br><br><br>
 					</div>
 				</section>
-				<section id="bubbleSection" style=background-color:LightGoldenRodYellow>
+				<section id="bubbleSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
 						<h1>Bubble chart</h1>
@@ -134,7 +156,9 @@
 		
 		<script type="text/javascript" src="js/barPlot.js"></script>
 		<script type="text/javascript" src="js/barPlotTypes.js"></script>
-		<script type="text/javascript" src="js/geoAccidents.js"></script>
+		<script type="text/javascript" src="js/barPlotHours.js"></script>
+		<script type="text/javascript" src="js/geoAccidents4.js"></script>
+		<script type="text/javascript" src="js/bubble.js"></script>
 		
 
 	</body>

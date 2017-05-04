@@ -1,14 +1,14 @@
 //Width and height
-var w = 800;
-var h = 400;
-var padding = 70;
+var wTypes = 800;
+var hTypes = 400;
+var paddingTypes = 70;
 var years = ["2012", "2013", "2014", "2015", "2016"];
 var accidents_no_injuries = [];
 var accidents_injuries = [];
 var accidents_death = [];
 var accidents_total = [];
-var dataset = [];
-var xScale, yScale, svg, types_legend;
+var datasetTypes = [];
+var xScaleTypes, yScaleTypes, svgTypes, types_legend;
 var dataset_types = [];
 var curr_no_injuries = accidents_no_injuries;
 var curr_injuries = accidents_injuries;
@@ -38,26 +38,26 @@ d3.csv("Datasets/accidents_with_type_year.csv", function(data) {
 		i++;
 	}
 
-	dataset = accidents_total;
+	datasetTypes = accidents_total;
 
 	var div = d3.select("#barPlotTypesSection .svg-div").append("div")	
 	.attr("class", "tooltip")				
 	.style("opacity", 0);
 
 	//Create SVG element
-	svg = d3.select("#barPlotTypesSection .svg-div")
+	svgTypes = d3.select("#barPlotTypesSection .svg-div")
 	.append("svg")
-	.attr("width", w)
-	.attr("height", h);
+	.attr("width", wTypes)
+	.attr("height", hTypes);
 
 	plot_bars();   				
 });
 
 function total_clicked(){
 	d3.select("#acc_types").classed("show", false);
-	svg.selectAll("rect").remove();
-	svg.selectAll("text").remove();
-	svg.selectAll("g").remove();
+	svgTypes.selectAll("rect").remove();
+	svgTypes.selectAll("text").remove();
+	svgTypes.selectAll("g").remove();
 
 	plot_bars();
 }
@@ -65,9 +65,9 @@ function types_clicked(){
 	d3.select("#acc_types").classed("show", true);
 	dataset_types = zip(curr_no_injuries, curr_injuries, curr_death);
 
-	svg.selectAll("rect").remove();
-	svg.selectAll("text").remove();
-	svg.selectAll("g").remove();
+	svgTypes.selectAll("rect").remove();
+	svgTypes.selectAll("text").remove();
+	svgTypes.selectAll("g").remove();
 
 	plot_bars_types();		
 
@@ -124,9 +124,9 @@ function zip(a,b,c) {
 
 function update_types() {
 
-	yScale.domain([0, 1.1*d3.max(dataset_types)]);
-	yScaleAxis.domain([0, 1.1*d3.max(dataset_types)]);
-	svg.selectAll("rect")
+	yScaleTypes.domain([0, 1.1*d3.max(dataset_types)]);
+	yScaleAxisTypes.domain([0, 1.1*d3.max(dataset_types)]);
+	svgTypes.selectAll("rect")
 	.data(dataset_types)
 	.transition()
 	.delay(function(d, i) {
@@ -134,58 +134,58 @@ function update_types() {
 	})
 	.duration(500)
 	.attr("y", function(d) {
-		return h - yScale(d);
+		return hTypes - yScaleTypes(d);
 	})
 	.attr("height", function(d) {
-		return yScale(d)-padding;
+		return yScaleTypes(d)-paddingTypes;
 	})
 
 	//Update Y axis
-	svg.select(".y.axis")
+	svgTypes.select(".y.axis")
 	.transition()
 	.duration(1000)
-	.call(yAxis);
+	.call(yAxisTypes);
 }
 function plot_bars(){
-	xScale = d3.scale.ordinal()
-	.domain(d3.range(dataset.length))
-	.rangeRoundBands([padding, w - padding * 2], 0.05);
+	xScaleTypes = d3.scale.ordinal()
+	.domain(d3.range(datasetTypes.length))
+	.rangeRoundBands([paddingTypes, wTypes - paddingTypes * 2], 0.05);
 
-	xScaleAxis = d3.scale.ordinal()
+	xScaleAxisTypes = d3.scale.ordinal()
 	.domain([2012,2013,2014,2015,2016])
-	.rangeRoundBands([padding, w - padding * 2], 0.05);
+	.rangeRoundBands([paddingTypes, wTypes - paddingTypes * 2], 0.05);
 
-	xAxis = d3.svg.axis()
-	.scale(xScaleAxis)
+	xAxisTypes = d3.svg.axis()
+	.scale(xScaleAxisTypes)
 	.orient("bottom")
 	.ticks(5);
 
-	yScale = d3.scale.linear()
-	.domain([0, 1.1*d3.max(dataset)])
-	.range([padding, h-padding]);
+	yScaleTypes = d3.scale.linear()
+	.domain([0, 1.1*d3.max(datasetTypes)])
+	.range([paddingTypes, hTypes-paddingTypes]);
 
-	yScaleAxis = d3.scale.linear()
-	.domain([0, 1.1*d3.max(dataset)])
-	.range([h - padding, padding]);
+	yScaleAxisTypes = d3.scale.linear()
+	.domain([0, 1.1*d3.max(datasetTypes)])
+	.range([hTypes - paddingTypes, paddingTypes]);
 
-	yAxis = d3.svg.axis()
-	.scale(yScaleAxis)
+	yAxisTypes = d3.svg.axis()
+	.scale(yScaleAxisTypes)
 	.orient("left")
 	.ticks(5);
 
-	svg.selectAll("rect")
-	.data(dataset)
+	svgTypes.selectAll("rect")
+	.data(datasetTypes)
 	.enter()
 	.append("rect")
 	.attr("x", function(d, i) {
-		return xScale(i);
+		return xScaleTypes(i);
 	})
 	.attr("y", function(d) {
-		return h - yScale(d);
+		return hTypes - yScaleTypes(d);
 	})
-	.attr("width", xScale.rangeBand())
+	.attr("width", xScaleTypes.rangeBand())
 	.attr("height", function(d) {
-		return yScale(d) - padding;
+		return yScaleTypes(d) - paddingTypes;
 	})
 	.attr("fill", "rgb(0,116,183)")
 	.on("mouseover", function(d){
@@ -201,33 +201,33 @@ function plot_bars(){
 	.on("mouseout", function(){
 		d3.select("#tooltipType").classed("hidden", true);
 	});
-	svg.append("g")
+	svgTypes.append("g")
 	.attr("class", "x axis")
-	.attr("transform", "translate(0," + (h-padding) + ")")
-	.call(xAxis);
+	.attr("transform", "translate(0," + (hTypes-paddingTypes) + ")")
+	.call(xAxisTypes);
 
-	svg.append("g")
+	svgTypes.append("g")
 	.attr("class", "y axis")
-	.attr("transform", "translate(" + padding + ",0)")
-	.call(yAxis);
+	.attr("transform", "translate(" + paddingTypes + ",0)")
+	.call(yAxisTypes);
 
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("class", "title")
 	.attr("text-anchor", "middle") 
-	.attr("transform", "translate("+ (w/2*0.9) +"," + padding/2 + ")")
+	.attr("transform", "translate("+ (wTypes/2*0.9) +"," + paddingTypes/2 + ")")
 	.attr("font-size", "18px")
 	.attr("font-weight", "bold")
 	.attr("id", "plot_title")
 	.text("Accidents/year");
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("class", "yaxis")
 	.attr("text-anchor", "middle")
 	.attr("font-size", "12px")
-	.attr("transform", "translate("+ (padding/5) +","+(h/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+	.attr("transform", "translate("+ (paddingTypes/5) +","+(hTypes/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
 	.text("Accidents");
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("text-anchor", "middle")
-	.attr("transform", "translate("+ (w/2*0.91) +","+(h-(padding/2))+")")  // centre below axis
+	.attr("transform", "translate("+ (wTypes/2*0.91) +","+(hTypes-(paddingTypes/2))+")")  // centre below axis
 	.attr("font-size", "12px")
 	.text("Year");
 
@@ -235,42 +235,42 @@ function plot_bars(){
 
 function plot_bars_types(){
 
-	xScale = d3.scale.ordinal()
+	xScaleTypes = d3.scale.ordinal()
 	.domain(d3.range(dataset_types.length))
-	.rangeRoundBands([padding, w - padding * 2], 0.1);
+	.rangeRoundBands([paddingTypes, wTypes - paddingTypes * 2], 0.1);
 
 	xScaleAxis = d3.scale.ordinal()
 	.domain([2012,2013,2014,2015,2016])
-	.rangeRoundBands([padding, w - padding * 2], 0.05);
+	.rangeRoundBands([paddingTypes, wTypes - paddingTypes * 2], 0.05);
 
-	xAxis = d3.svg.axis()
-	.scale(xScaleAxis)
+	xAxisTypes = d3.svg.axis()
+	.scale(xScaleAxisTypes)
 	.orient("bottom")
 	.ticks(5);
 
-	yScale = d3.scale.linear()
+	yScaleTypes = d3.scale.linear()
 	.domain([0, 1.1*d3.max(dataset_types)])
-	.range([padding, h-padding]);
+	.range([paddingTypes, hTypes-paddingTypes]);
 
-	yScaleAxis = d3.scale.linear()
+	yScaleAxisTypes = d3.scale.linear()
 	.domain([0, 1.1*d3.max(dataset_types)])
-	.range([h - padding, padding]);
+	.range([hTypes - paddingTypes, paddingTypes]);
 
-	yAxis = d3.svg.axis()
-	.scale(yScaleAxis)
+	yAxisTypes = d3.svg.axis()
+	.scale(yScaleAxisTypes)
 	.orient("left")
 	.ticks(5);
 
 
-	svg.selectAll("rect")
+	svgTypes.selectAll("rect")
 	.data(dataset_types)
 	.enter()
 	.append("rect")
 	.attr("x", function(d, i) {
-		var width = xScale.rangeBand();
+		var width = xScaleTypes.rangeBand();
 		var rest = i%3;
 		if (rest == 0){
-			pos = xScale(i);
+			pos = xScaleTypes(i);
 			return pos;
 		}
 		else if(i%3 == 1){
@@ -281,11 +281,11 @@ function plot_bars_types(){
 		}
 	})
 	.attr("y", function(d) {
-		return h - yScale(d);
+		return hTypes - yScaleTypes(d);
 	})
-	.attr("width", xScale.rangeBand())
+	.attr("width", xScaleTypes.rangeBand())
 	.attr("height", function(d) {
-		return yScale(d)-padding;
+		return yScaleTypes(d)-paddingTypes;
 	})
 	.attr("fill", function(d,i){
 		return colors_types[i%3];	
@@ -303,46 +303,46 @@ function plot_bars_types(){
 	.on("mouseout", function(){
 		d3.select("#tooltipType").classed("hidden", true);
 	});
-	svg.append("g")
+	svgTypes.append("g")
 	.attr("class", "x axis")
-	.attr("transform", "translate(0," + (h-padding) + ")")
-	.call(xAxis);
+	.attr("transform", "translate(0," + (hTypes-paddingTypes) + ")")
+	.call(xAxisTypes);
 
-	svg.append("g")
+	svgTypes.append("g")
 	.attr("class", "y axis")
-	.attr("transform", "translate(" + padding + ",0)")
-	.call(yAxis);
+	.attr("transform", "translate(" + paddingTypes + ",0)")
+	.call(yAxisTypes);
 
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("class", "title")
 	.attr("text-anchor", "middle") 
-	.attr("transform", "translate("+ (w/2*0.9) +"," + padding/2 + ")")
+	.attr("transform", "translate("+ (wTypes/2*0.9) +"," + paddingTypes/2 + ")")
 	.attr("font-size", "18px")
 	.attr("font-weight", "bold")
 	.attr("id", "plot_title")
 	.text("Accidents/year according to their consequences");
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("class", "yaxis")
 	.attr("text-anchor", "middle")
 	.attr("font-size", "12px")
-	.attr("transform", "translate("+ (padding/5) +","+(h/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+	.attr("transform", "translate("+ (paddingTypes/5) +","+(hTypes/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
 	.text("Accidents");
-	svg.append("text")
+	svgTypes.append("text")
 	.attr("text-anchor", "middle")
-	.attr("transform", "translate("+ (w/2*0.91) +","+(h-(padding/2))+")")  // centre below axis
+	.attr("transform", "translate("+ (wTypes/2*0.91) +","+(hTypes-(paddingTypes/2))+")")  // centre below axis
 	.attr("font-size", "12px")
 	.text("Year");
 
 	types_legendScale = d3.scale.linear()
 	.domain([0,2])
-	.range([padding + 10, padding + 70]);
+	.range([paddingTypes + 10, paddingTypes + 70]);
 
-	svg.append("g")
+	svgTypes.append("g")
 	.selectAll("rect")
 	.data(types_legend)
 	.enter()
 	.append("rect")
-	.attr("x", w-padding*2)
+	.attr("x", wTypes-paddingTypes*2)
 	.attr("y", function(d){
 		return types_legendScale(d);
 	})
@@ -353,12 +353,12 @@ function plot_bars_types(){
 	})
 	.attr("opacity", 1);
 
-	svg.append("g")
+	svgTypes.append("g")
 	.selectAll("text")
 	.data(accident_types)
 	.enter()
 	.append("text")
-	.attr("x", w-padding*2+25)
+	.attr("x", wTypes-paddingTypes*2+25)
 	.attr("y", function(d,i){
 		return types_legendScale(i)+9;
 	})
