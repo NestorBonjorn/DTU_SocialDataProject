@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: .5;
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="d3.geo.tile.min.js"></script>
+<script>
+
+var width = 960,
+    height = 500;
+
+var projection = d3.geo.mercator()
+    .center([-73.94, 40.70])
+	.scale(45000);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.json("nyc_topo.json", function(error, topology) {
+  if (error) throw error;
+  console.log(topology)
+  var defs = svg.append("defs");
+
+  defs.append("path")
+      .attr("id", "land")
+      //.datum(topojson.feature(topology, topology.objects.land))
+      .datum(topojson.feature(topology, topology.objects.nyc_boroughs))
+      //.datum(topology.features.properties.geometry)
+      .attr("d", path);
+
+  //es la clau, no esborrar
+  defs.append("clipPath")
+      .attr("id", "clip")
+    .append("use")
+      .attr("xlink:href", "#land");
+
+  svg.append("use")
+      .attr("xlink:href", "#land")
+      .attr("class", "stroke");
+
+ svg.append("g")
+ .attr("clip-path", "url(#clip)")
+ .append("circle")
+ .attr("cx", projection([-73.94, 40.70])[0])
+ .attr("cy",projection([-73.94, 40.70])[1])
+ .attr("r", 150);
+});
+
+// http://www.codewritingcow.com/public/assets/js/json/nyc_boroughs-topojson.json
+</script>
+

@@ -1,3 +1,5 @@
+//Based on https://bl.ocks.org/ctufts/f38ef0187f98c537d791d24fda4a6ef9
+
 var widthForce = 960,
     heightForce = 800,
     paddingForce = 1.5, // separation between same-color nodes
@@ -26,7 +28,6 @@ var tooltipForce = d3.select("body")
 var buttonIDBubble = "radioBubble1";
 
 var contador = 0;
-var contador2 = 0;
 var radis_total = [];
 var datasetForce_total = [];
 var radis_deaths = [];
@@ -226,9 +227,7 @@ function button_total_bubble() {
         .transition()
         .duration(1000)
         .attr("r", function(d){
-
             d.radius=radis_total[contador]*r_factor;
-            console.log(d.radius);
             contador = contador + 1;
             return (d.radius)
         });

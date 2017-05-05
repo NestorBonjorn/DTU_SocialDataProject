@@ -10,8 +10,8 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    right: 450px;
-    top: 250px;
+    right: 0px;
+    top: 0px;
 }
 
 .dropdown-content {

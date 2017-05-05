@@ -55,6 +55,7 @@ header a {
 header li {
 	display: inline-block;
 	margin-right: 1em;
+	font-size: 14px;
 }
 
 header li a:hover {
@@ -122,4 +123,11 @@ header li a:hover {
 	right: 20px;
 	margin-left: 20px;
 	padding-left: 20px;
+}
+
+rect:hover {
+	opacity: 0.7;
+}	
+circle:hover {
+	opacity: 0.7;
 }

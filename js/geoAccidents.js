@@ -19,37 +19,6 @@ var map = svgMap.append('g');
 var mapCircles = svgMap.append('g');
 var mapKilled = svgMap.append('g');
 
-// Append buttons
-/*d3.select("#mapSection .button-div").append("button")
-.attr("class", "button")
-.attr("id", "2012AccidentsButton")
-.style("background-color", "rgb(44, 160, 44)")
-.text("2012");
-
-d3.select("#mapSection .button-div").append("button")
-.attr("class", "button")
-.attr("id", "2013AccidentsButton")
-.style("background-color", "rgb(214, 39, 40)")
-.text("2013");
-
-d3.select("#mapSection .button-div").append("button")
-.attr("class", "button")
-.attr("id", "2014AccidentsButton")
-.style("background-color", "rgb(214, 39, 40)")
-.text("2014");
-
-d3.select("#mapSection .button-div").append("button")
-.attr("class", "button")
-.attr("id", "2015AccidentsButton")
-.style("background-color", "rgb(214, 39, 40)")
-.text("2015");
-
-d3.select("#mapSection .button-div").append("button")
-.attr("class", "button")
-.attr("id", "2016AccidentsButton")
-.style("background-color", "rgb(214, 39, 40)")
-.text("2016");*/
-
 //Define map projection
 var projection = d3.geo.mercator()
 .center([-73.94, 40.70])
@@ -91,23 +60,6 @@ d3.json("Datasets/nyc.geojson", function(json) {
 	.on("mouseout", function(d) {
 		d3.select(this).style("fill", "gainsboro")
 	});
-
-	//Define clipping path
-	/*map.append("clipPath")
-		.attr("id", "chart-area-map")
-		.selectAll("polygon")
-		.data(json.features.path)
-		.enter()
-		.append("polygon")
-		.attr("points", function(d) {
-			return d;
-		});*/
-
-		/*.append("rect")
-		.attr("x", w/2)
-		.attr("y", h/2)
-		.attr("width", w/2)
-		.attr("height", h/2);*/
 
 	//Create dots labels legend
 	map.append("g")
@@ -211,83 +163,6 @@ d3.json("Datasets/nyc.geojson", function(json) {
 		}
 		dataset_points_killed = dataset_killed_year["2012"];
 	});
-
-	//On click (button), update with new data			
-	/*d3.select("#mapSection").selectAll("div .dropdown-content")
-	.on("click", function() {
-
-			//See which button was clicked
-			buttonIDMap = d3.select(this).attr("id");
-
-			console.log(d3.select(this));
-			
-			//Scatter plot buttons
-			if (buttonIDMap == "2012AccidentsButton") {
-				// 2012 data
-				year = "2012";
-				//accidentsButtonsColor(year);
-				accidentsYearMap(year);
-			} else if (buttonIDMap == "2013AccidentsButton") {
-				// 2013 data
-				year = "2013";
-				//accidentsButtonsColor(year);
-				accidentsYearMap(year);
-			} else if (buttonIDMap == "2014AccidentsButton") {
-				// 2014 data
-				year = "2014";
-				//accidentsButtonsColor(year);
-				accidentsYearMap(year);
-			} else if (buttonIDMap == "2015AccidentsButton") {
-				// 2014 data
-				year = "2015";
-				//accidentsButtonsColor(year);
-				accidentsYearMap(year);
-			} else if (buttonIDMap == "2016AccidentsButton") {
-				// 2014 data
-				year = "2016";
-				//accidentsButtonsColor(year);
-				accidentsYearMap(year);
-			}
-
-
-			function accidentsButtonsColor(year) {
-				d3.select("button[id='" + year + "AccidentsButton']").style("background-color", "rgb(44, 160, 44)");
-				var accidentsButtonsColorList = ["2012", "2013", "2014", "2015", "2016"];
-				accidentsButtonsColorList.splice(accidentsButtonsColorList.indexOf(year), 1);
-				for (var i=0; i < accidentsButtonsColorList.length; i++) {
-					d3.select("button[id='" + accidentsButtonsColorList[i] + "AccidentsButton']").style("background-color", "rgb(2014, 39, 40)");
-				}
-			}
-		});*/
-
-
-	/*function accidentsYearMap (year) {
-		console.log("hola");
-		if (dataset_points != dataset_points_year[year]) {
-			dataset_points = dataset_points_year[year];
-
-			mapCircles.selectAll("circle")
-			//.remove();
-			.data(dataset_points)
-			.transition()
-			.duration(1000)
-			.attr("cx", function(d) {
-				return projection([d.lon, d.lat])[0];
-			})
-			.attr("cy", function(d) {
-				return projection([d.lon, d.lat])[1];
-			})
-			.attr("r", function(d) {
-				if (d.label == 2) {
-					return 10;
-				}
-				return parseInt(d.label)*2+2; 
-			})
-			.style("fill", function(d) {
-				return colors[parseInt(d.label)];
-			});
-		}
-	}*/
 
 });
 

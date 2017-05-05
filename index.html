@@ -4,12 +4,13 @@
 		<meta charset="utf-8">
 		<title>Social Data Analysis and Data Visualization: Assignment 2</title>
 		<script type="text/javascript" src="d3/d3.js"></script>
+		<script src="//d3js.org/topojson.v1.min.js"></script>
 		
 		<link rel="stylesheet" href="css/style.css"/>
-		<link rel="stylesheet" href="css/assignment2.css"/>
-		<link rel="stylesheet" href="css/dropdown4.css"/>
+		<link rel="stylesheet" href="css/assignment.css"/>
+		<link rel="stylesheet" href="css/dropdown.css"/>
 		<link rel="stylesheet" href="css/titles.css"/>
-		<link rel="stylesheet" href="css/bar_plot2.css"/>
+		<link rel="stylesheet" href="css/bar_plot.css"/>
 	</head>
 	<body>
 
@@ -20,10 +21,11 @@
 					<h1><a href="#">NYC Road Accidents</a></h1>
 					<ul>
 						<li><a href="#">Home</a></li>
-						<li><a href="#barPlotSection">Bar plots</a></li>
-						<li><a href="#mapSection">Map</a></li>
+						<li><a href="#introSection">Introduction</a></li>
+						<li><a href="#barPlotSection">Bars</a></li>
+						<li><a href="#mapSection">Maps</a></li>
 						<li><a href="#bubbleForceSection">Bubble</a></li>
-						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Explainer notebook</a></li>
+						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Notebook</a></li>
 						<li><a href="https://github.com/NestorBonjorn/SocialDataAnalysisAndVisualization2017">Github Repo</a></li>
 					</ul>
 				</div>
@@ -32,6 +34,15 @@
 			<div class="banner"></div>
 			
 			<div class="content">
+				<section id="introSection" style=background-color:LightGoldenRodYellow>
+					<div class="viz-div">
+						<br>
+						<h1>Introduction</h1>
+						<p>In this web page, [...].</p>
+						<br>
+						<br>
+					</div>
+				</section>
 				<section id="barPlotSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
@@ -128,14 +139,34 @@
 						<br><br><br>
 					</div>
 				</section>
-				<!-- <section id="bubbleSection" style=background-color:PaleGoldenRod>
+				<section id="mapClip" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
-						<h1>Bubble chart</h1>
-						<p>The bubble chart below represents something.</p>
+						<h1>Clip map</h1>
+						<p>The map below represents something.</p>
 						<div class="svg-div"></div>
 					</div>
-				</section> -->
+				</section>
+				<section id="kmeansSection" style=background-color:LightGoldenRodYellow>
+					<div class="viz-div">
+						<br>
+						<h1>New York map</h1>
+						<p>The kmeans below represents something.</p>
+						<br>
+						<input type="radio" id="k2" name="radioskmeans" value="2" checked onchange="kmeansclicked()">
+						<label for="k2">K = 2</label>
+						<input type="radio" id="k3" name="radioskmeans" value="3" onchange="kmeansclicked()">
+						<label for="k3">K = 3</label>
+						<input type="radio" id="k4" name="radioskmeans" value="4" onchange="kmeansclicked()">
+						<label for="k4">K = 4</label>
+						<input type="radio" id="k5" name="radioskmeans" value="5" onchange="kmeansclicked()">
+						<label for="k5">K = 5</label>
+						<input type="radio" id="k6" name="radioskmeans" value="6" onchange="kmeansclicked()">
+						<label for="k6">K = 6</label>
+						<div class="svg-div"></div>
+						<br><br><br>
+					</div>
+				</section>
 				<section id="bubbleForceSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
@@ -163,6 +194,8 @@
 		<script type="text/javascript" src="js/barPlotTypes.js"></script>
 		<script type="text/javascript" src="js/barPlotHours.js"></script>
 		<script type="text/javascript" src="js/geoAccidents.js"></script>
+		<script type="text/javascript" src="js/clip_path.js"></script>
+		<script type="text/javascript" src="js/kmeans.js"></script>
 		<script type="text/javascript" src="js/bubbleForce.js"></script>
 
 		
