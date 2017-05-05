@@ -16,7 +16,19 @@ var curr_death = accidents_death;
 var types_legend = [0,1,2];
 var colors_types = ["rgb(50,205,50)", "rgb(218,165,32)", "rgb(178,34,34)"];
 var accident_types = ["No injuries", "Injuries", "Deaths"]
-var formatTypes = d3.format(",d"),
+var formatTypes = d3.format(",d");
+
+var tooltipTypes = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("color", "white")
+    .style("padding", "8px")
+    .style("background-color", "rgba(0, 0, 0, 0.75)")
+    .style("border-radius", "6px")
+    .style("font", "12px sans-serif")
+    .text("tooltip");
 
 d3.csv("Datasets/accidents_with_type_year.csv", function(data) {
 	i = 0;
@@ -52,17 +64,7 @@ d3.csv("Datasets/accidents_with_type_year.csv", function(data) {
 	.attr("width", wTypes)
 	.attr("height", hTypes);
 
-	var tooltipTypes = d3.select("body")
-    .append("div")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("visibility", "hidden")
-    .style("color", "white")
-    .style("padding", "8px")
-    .style("background-color", "rgba(0, 0, 0, 0.75)")
-    .style("border-radius", "6px")
-    .style("font", "12px sans-serif")
-    .text("tooltip");
+	
 
 	plot_bars();   				
 });
@@ -203,23 +205,14 @@ function plot_bars(){
 	})
 	.attr("fill", "rgb(0,116,183)")
 	.on("mouseover", function(d){
-			tooltipTypes.text(d + ": " + formatTypes(d));
+			tooltipTypes.text(d);
             tooltipTypes.style("visibility", "visible");
-
-		/*var xPosition = d3.event.pageX + 5;
-		var yPosition = d3.event.pageY - 100;
-		d3.select("#tooltipType")
-		.style("left", xPosition + "px")
-		.style("top", yPosition + "px")
-		.select("#value")
-		.text(d);
-		d3.select("#tooltipType").classed("hidden", false);*/
 	})
 	.on("mousemove", function() {
           return tooltipTypes.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
       })
 
-    .on("mouseout", function(){return tooltipBubble.style("visibility", "hidden");});
+    .on("mouseout", function(){return tooltipTypes.style("visibility", "hidden");});
 
 	/*.on("mouseout", function(){
 		d3.select("#tooltipType").classed("hidden", true);
@@ -314,18 +307,15 @@ function plot_bars_types(){
 		return colors_types[i%3];	
 	})
 	.on("mouseover", function(d){
-		var xPosition = d3.event.pageX;
-		var yPosition = d3.event.pageY;
-		d3.select("#tooltipType")
-		.style("left", xPosition + "px")
-		.style("top", yPosition + "px")
-		.select("#value")
-		.text(d);
-		d3.select("#tooltipType").classed("hidden", false);
+			tooltipTypes.text(d);
+            tooltipTypes.style("visibility", "visible");
 	})
-	.on("mouseout", function(){
-		d3.select("#tooltipType").classed("hidden", true);
-	});
+	.on("mousemove", function() {
+          return tooltipTypes.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+      })
+
+    .on("mouseout", function(){return tooltipTypes.style("visibility", "hidden");});
+
 	svgTypes.append("g")
 	.attr("class", "x axis")
 	.attr("transform", "translate(0," + (hTypes-paddingTypes) + ")")

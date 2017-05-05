@@ -76,6 +76,7 @@ var legendScaleMap = d3.scale.linear()
 //Load in GeoJSON data
 d3.json("Datasets/nyc.geojson", function(json) {
 	
+
 	//Bind data and create one path per GeoJSON feature
 	map.selectAll("path")
 	.data(json.features)
@@ -90,6 +91,23 @@ d3.json("Datasets/nyc.geojson", function(json) {
 	.on("mouseout", function(d) {
 		d3.select(this).style("fill", "gainsboro")
 	});
+
+	//Define clipping path
+	/*map.append("clipPath")
+		.attr("id", "chart-area-map")
+		.selectAll("polygon")
+		.data(json.features.path)
+		.enter()
+		.append("polygon")
+		.attr("points", function(d) {
+			return d;
+		});*/
+
+		/*.append("rect")
+		.attr("x", w/2)
+		.attr("y", h/2)
+		.attr("width", w/2)
+		.attr("height", h/2);*/
 
 	//Create dots labels legend
 	map.append("g")
@@ -147,7 +165,9 @@ d3.json("Datasets/nyc.geojson", function(json) {
 			}
 		}
 		dataset_points = dataset_points_year["2012"];
-		mapCircles.selectAll("circles")
+		mapCircles/*.append("g")
+		.attr("clip-path", "url(#chart-area-map)")*/
+		.selectAll("circles")
 		.data(dataset_points_year["2012"])
 		.enter()
 		.append("circle")
