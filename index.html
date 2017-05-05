@@ -22,7 +22,7 @@
 						<li><a href="#">Home</a></li>
 						<li><a href="#barPlotSection">Bar plots</a></li>
 						<li><a href="#mapSection">Map</a></li>
-						<li><a href="#bubbleSection">Bubble</a></li>
+						<li><a href="#bubbleForceSection">Bubble</a></li>
 						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Explainer notebook</a></li>
 						<li><a href="https://github.com/NestorBonjorn/SocialDataAnalysisAndVisualization2017">Github Repo</a></li>
 					</ul>
@@ -128,19 +128,23 @@
 						<br><br><br>
 					</div>
 				</section>
-				<section id="bubbleSection" style=background-color:PaleGoldenRod>
+				<!-- <section id="bubbleSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
 						<h1>Bubble chart</h1>
 						<p>The bubble chart below represents something.</p>
 						<div class="svg-div"></div>
 					</div>
-				</section>
+				</section> -->
 				<section id="bubbleForceSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
 						<h1>Bubble force</h1>
 						<p>The bubble force below represents something.</p>
+						<input type="radio" id="radioBubble1" name="radiosBubble" value="all" checked onchange="button_total_bubble()">
+						<label for="radioBubble1">Total</label>
+						<input type="radio" id="radioBubble2" name="radiosBubble" value="false" onchange="button_deaths_bubble()">
+						<label for="radioBubble2">Deaths</label>
 						<div class="svg-div"></div>
 					</div>
 				</section>
@@ -159,7 +163,6 @@
 		<script type="text/javascript" src="js/barPlotTypes.js"></script>
 		<script type="text/javascript" src="js/barPlotHours.js"></script>
 		<script type="text/javascript" src="js/geoAccidents.js"></script>
-		<script type="text/javascript" src="js/bubble.js"></script>
 		<script type="text/javascript" src="js/bubbleForce.js"></script>
 
 		

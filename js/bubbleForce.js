@@ -1,8 +1,9 @@
 var widthForce = 960,
-heightForce = 800,
+    heightForce = 800,
     paddingForce = 1.5, // separation between same-color nodes
-    clusterPadding = 6, // separation between different-color nodes
+    clusterPadding = 5, // separation between different-color nodes
     maxRadius = 0.05;
+    r_factor = 1.2;
 
 /*var colorForce = d3.scale.ordinal()
 .range(["#7A99AC", "#E4002B", "#7FFFD4"]);*/
@@ -22,6 +23,19 @@ var tooltipForce = d3.select("body")
 .style("font", "12px sans-serif")
 .text("tooltip");
 
+var buttonIDBubble = "radioBubble1";
+
+var contador = 0;
+var contador2 = 0;
+var radis_total = [];
+var datasetForce_total = [];
+var radis_deaths = [];
+var datasetForce_deaths = [];
+
+var nodeForce;
+
+var radioVar = true;
+
 d3.text("Datasets/bubble_force2.csv", function(error, text) {
   if (error) throw error;
   var colNames = "text,size,group\n" + text;
@@ -30,6 +44,14 @@ d3.text("Datasets/bubble_force2.csv", function(error, text) {
   dataForce.forEach(function(d) {
     d.size = +d.size;
 });
+
+    //Obtain the radius of the cercles (total dataset)
+    datasetForce_total = text.split(",");
+    for (var i = 0; i<datasetForce_total.length; i++) {
+        if ((i-1)%2==0) {
+            radis_total.push(parseFloat(datasetForce_total[i]));
+        }
+    }
 
 
 //unique cluster/group id's
@@ -62,18 +84,23 @@ var svgForce = d3.select("#bubbleForceSection .svg-div").append("svg")
 .attr("width", widthForce)
 .attr("height", heightForce);
 
-svgForce.on("click", function() {
-    nodeForce.selectAll("circle")
-    .transition()
-    .duration(1000)
-    .attr("r", function(d){
-        d.radius=d.radius;
-        return (d.radius)
-    });
+
+
+d3.text("Datasets/bubble_force_deaths.csv", function(data) {
+
+
+    //Obtain the radius of the cercles (deaths dataset)
+    datasetForce_deaths = data.split(",");
+    for (var i = 0; i<datasetForce_deaths.length; i++) {
+        if ((i-1)%2==0) {
+            radis_deaths.push(parseFloat(datasetForce_deaths[i]));
+        }
+    }
+    
 });
 
 
-var nodeForce = svgForce.selectAll("circle")
+nodeForce = svgForce.selectAll("circle")
 .data(nodesForce)
 .enter().append("g").call(force.drag);
 
@@ -86,8 +113,14 @@ nodeForce.append("circle")
 .attr("stroke", "#565352")
 .attr("stroke-width", 0)
 .on("mouseover", function(d) {
-  tooltipForce.text(d.text + ": " + Math.round(Math.pow((d.radius)*2/3,2)*11));
-  tooltipForce.style("visibility", "visible");
+
+    if (radioVar == true) {
+        tooltipForce.text(d.text + ": " + Math.round(Math.pow((d.radius)/r_factor,2)*11));
+    }
+    else {
+        tooltipForce.text(d.text + ": " + Math.round(Math.pow((d.radius)/r_factor,2)*0.0092));
+    }
+    tooltipForce.style("visibility", "visible");
 })
 .on("mousemove", function() {
   return tooltipForce.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
@@ -109,7 +142,7 @@ function create_nodes(data,node_counter) {
   r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
   d = {
     cluster: i,
-    radius: data[node_counter].size*1.5,
+    radius: data[node_counter].size*r_factor,
     text: data[node_counter].text,
     x: Math.cos(i / m * 2 * Math.PI) * 200 + widthForce / 2 + Math.random(),
     y: Math.sin(i / m * 2 * Math.PI) * 200 + heightForce / 2 + Math.random()
@@ -121,8 +154,8 @@ return d;
 
 
 function tick(e) {
-    nodeForce.each(cluster(10 * e.alpha * e.alpha))
-    .each(collide(.5))
+    nodeForce.each(cluster(2 * e.alpha * e.alpha))
+    .each(collide(.3))
     .attr("transform", function (d) {
         var k = "translate(" + d.x + "," + d.y + ")";
         return k;
@@ -184,3 +217,50 @@ Array.prototype.contains = function(v) {
     }
     return false;
 };
+
+function button_total_bubble() {
+
+    radioVar = true;
+
+    nodeForce.selectAll("circle")
+        .transition()
+        .duration(1000)
+        .attr("r", function(d){
+
+            d.radius=radis_total[contador]*r_factor;
+            console.log(d.radius);
+            contador = contador + 1;
+            return (d.radius)
+        });
+
+    nodeForce.selectAll("text")
+    .transition()
+    .duration(1000)
+    .text(function(d) { 
+        return d.text.substring(0, d.radius / 3); 
+    });
+    contador = 0;
+}
+
+
+function button_deaths_bubble() {
+
+    radioVar = false;
+
+    nodeForce.selectAll("circle")
+        .transition()
+        .duration(1000)
+        .attr("r", function(d){
+            d.radius=radis_deaths[contador]*r_factor;
+            contador = contador + 1;
+            return (d.radius)
+        });
+
+    nodeForce.selectAll("text")
+    .transition()
+    .duration(1000)
+    .text(function(d) { 
+        return d.text.substring(0, d.radius / 3); 
+    });
+    contador = 0;
+}
