@@ -111,8 +111,8 @@
 				<section id="mapSection" style=background-color:LightGoldenRodYellow>
 					<div class="viz-div">
 						<br>
-						<h1>New York map</h1>
-						<p>The map below represents the city of New York.</p>
+						<h1>Accidents map</h1>
+						<p>The map below illustrates the location of vehicle accidents in the city of New York for each year from 2012 to 2016. Due to the huge number of registerd accidents in the dataset, only a 10% of the accidents are shown when the corresponding button (All accidents) is activated. Anyway, it allows the viewer to see the distribution of the accidents with different colors and sizes for the accidents with non-injured people, with injured people and with deaths, respectively. When choosing the "Fatal accidents" map for a specific year, all the corresponding accidents are represented in the map.</p>
 						<br><br>
 						<div class="dropdown">
 						  <button class="dropbtn" style="width:100px">Year</button>
@@ -142,16 +142,17 @@
 				<section id="mapClip" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
-						<h1>Clip map</h1>
-						<p>The map below represents something.</p>
+						<h1>Accidents distribution map</h1>
+						<p>This map does not represent each of the accidents in each corresponding position but the distribution of road accidents through all the city. The more strong the color the more accidents in this location. In this case, there isn't interactive visualizations but... it looks nice anyway.</p>
 						<div class="svg-div"></div>
 					</div>
 				</section>
 				<section id="kmeansSection" style=background-color:LightGoldenRodYellow>
 					<div class="viz-div">
 						<br>
-						<h1>New York map</h1>
-						<p>The kmeans below represents something.</p>
+						<h1>K-means map/h1>
+						<p>The following map shows the k-means cluster of vehicle accidents in San Francisco. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. The value of k can be set between 2 and 6 by clicking the following buttons.</p>
+						<p>The K centroids might be interesting for several reasons. For example, if the New York government has budget to build K fire stations throughout the city, the K centroids might be the K optimal locations in order to place them.</p>
 						<br>
 						<input type="radio" id="k2" name="radioskmeans" value="2" checked onchange="kmeansclicked()">
 						<label for="k2">K = 2</label>
@@ -170,8 +171,10 @@
 				<section id="bubbleForceSection" style=background-color:PaleGoldenRod>
 					<div class="viz-div">
 						<br>
-						<h1>Bubble force</h1>
-						<p>The bubble force below represents something.</p>
+						<h1>Contributing factors</h1>
+						<p>The following dynamic bubble chart represents the different contributing factors of the vehicle accidents in New York during the last years. The size of the bubbles represent the number of accidents caused by each contributin factor. The number of accidents is proportional to the area of the bubbles. 
+						The first visualization represents all kind of accidents. When clicking into the "Deaths" button, only the contributing factors of fatal accidents are represented. This allow to compare factors of accidents in general with factors of accidents with deaths. As it can be seen, there are several general factors that never caused a death.
+						Feel free to play with the bubbles by draging them. If the bubbles are overlapped after toggling the button, please drag one of them in order to restore optimal positions.</p>
 						<input type="radio" id="radioBubble1" name="radiosBubble" value="all" checked onchange="button_total_bubble()">
 						<label for="radioBubble1">Total</label>
 						<input type="radio" id="radioBubble2" name="radiosBubble" value="false" onchange="button_deaths_bubble()">
