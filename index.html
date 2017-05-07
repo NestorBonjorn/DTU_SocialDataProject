@@ -39,7 +39,7 @@
 						<br>
 						<h1>Introduction</h1>
 						<p>This web page is part of an academic project in the course "02806 Social data analysis and visualization" at Danmarks Tekniske Universitet (DTU). The aim of the project is to analyse a social dataset with different techniques, including machine learning mechanisms. Moreover, some interactive visualizations using the Javascript D3 library are required in order to represent the obtained data.</p>
-						<p>As the dataset, we have used the road accidents in the city of New York from 2012 to 2017. This dataset includes more than xxxxxx registered accidents. Throughout all the web page, different visualizations allow the reader to know the distribution of accidents through different years, hours and districts, the main contributing factors, etc.</p>
+						<p>As the dataset, we have used the road accidents in the city of New York from 2012 to 2017. This dataset includes more than 1.000.000 registered accidents. Throughout all the web page, different visualizations allow the reader to know the distribution of accidents through different years, hours and districts, the main contributing factors, etc.</p>
 						<p>In order to smoothly navigate through the web page, a static toolbar is placed at the top with links to the beginning of the different sections of the web page.</p>
 						<p>For the more interested readers, an explainer notebook with all the behind the scenes stuff is provided in the "Notebook" link of the toolbar. Finally, all the datasets used, as well as all the code, can be obtained in the "Github Repo" link that can also be found in the toolbar.</p>
 						<p>Hope you enjoy the nagivation :)</p>
@@ -150,7 +150,7 @@
 					<div class="viz-div">
 						<br>
 						<h1>Geomap: accidents distribution map</h1>
-						<p>This map does not represent each of the accidents in each corresponding position but the distribution of road accidents through all the city. The more strong is the color the more accidents are in that location.</p>
+						<p>This map does not represent each of the accidents in each corresponding position but the distribution of road accidents through all the city. The more strong is the color the more accidents there are in that location.</p>
 						<p>In order to obtain this map, the different accidents are represented with 'big' svg elements with very low opacity (high transparency) that are overlapped to each other. Then, these svg elements are added into a clip-path with the shape of the city in a way that they don't surpass the boundaries of the city.</p>
 						<p>In this case, we regret to inform you that there are no interactive visualizations... but it looks nice anyway.</p>
 						<div class="svg-div"></div>
@@ -160,7 +160,7 @@
 					<div class="viz-div">
 						<br>
 						<h1>Geomap: K-means map</h1>
-						<p>The following map shows the k-means cluster of vehicle accidents in San Francisco. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. The value of k can be set between 2 and 6 by clicking the following buttons.</p>
+						<p>The following map shows the k-means cluster of vehicle accidents in New York city. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. The value of k can be set between 2 and 6 by clicking the following buttons.</p>
 						<p>The K centroids might be interesting for several reasons. For example, if the New York government has budget to build K fire stations throughout the city, the K centroids might be the K optimal locations in order to place them.</p>
 						<br>
 						<input type="radio" id="k2" name="radioskmeans" value="2" checked onchange="kmeansclicked()">
