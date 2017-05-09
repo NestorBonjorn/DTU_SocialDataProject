@@ -25,7 +25,7 @@
 						<li><a href="#barPlotSection">Bars</a></li>
 						<li><a href="#mapSection">Maps</a></li>
 						<li><a href="#bubbleForceSection">Bubble</a></li>
-						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataAnalysisAndVisualization2017/blob/master/Week5_Clustering.ipynb">Notebook</a></li>
+						<li><a href="http://nbviewer.jupyter.org/github/NestorBonjorn/SocialDataProject/blob/master/Explainer%20Notebook.ipynb">Notebook</a></li>
 						<li><a href="https://github.com/NestorBonjorn/SocialDataProject">Github Repo</a></li>
 					</ul>
 				</div>
@@ -72,7 +72,7 @@
 						<br>
 						<h1>Bar plot: accidents per year</h1>
 						<p>The plot below represents the distribution of vehicle accidents during the last 4 years. If you click the "Show types" buttons, you can see the distribution depending on the consequences of the accident: accidents with non-injured people, with injured people or with deaths.</p>
-						<p>Although there are more accidents every year, it can be seen that, at the same time, there are less fatal accidents every year.</p>
+						<p>It is very interesting to analyze the evolution of the number of accidents, separating them by the consequences of these accidents, that is: no injuries, injuries or deaths. We can see that the number of accidents without injuries is increasing at a similar rate as the total (since it represents the majority of the accidents) and the number of accidents with injured people is quite stable around 37.500. However, the number of deaths is decreasing year over year. This is probably because of the active and passive safety systems installed in new cars, the increase in the cost of traffic fines or a better social consciousness.</p>
 						<br>
 						<input type="radio" id="radio1" name="radiosType" value="false" onchange="types_clicked()">
 						<label for="radio1">Show types</label>
@@ -152,7 +152,7 @@
 						<h1>Geomap: accidents distribution map</h1>
 						<p>This map does not represent each of the accidents in each corresponding position but the distribution of road accidents through all the city. The more strong is the color the more accidents there are in that location.</p>
 						<p>In order to obtain this map, the different accidents are represented with 'big' svg elements with very low opacity (high transparency) that are overlapped to each other. Then, these svg elements are added into a clip-path with the shape of the city in a way that they don't surpass the boundaries of the city.</p>
-						<p>In this case, we regret to inform you that there are no interactive visualizations... but it looks nice anyway.</p>
+						<p>In this case, we regret to inform you that there are no interactive visualizations... but it looks nice anyway (at least in Chrome, not in other web browsers).</p>
 						<div class="svg-div"></div>
 					</div>
 				</section>
